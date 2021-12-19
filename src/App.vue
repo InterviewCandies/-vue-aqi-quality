@@ -1,28 +1,52 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <el-row>
+      <el-col :span="8">
+        <LocationNavigation @city-clicked="handleCityClicked"></LocationNavigation>
+      </el-col>
+      <el-col :span="16">
+        <WeatherDisplay :data="weatherData"></WeatherDisplay>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import LocationNavigation from "@/components/LocationNavigation"
+import WeatherDisplay from "@/components/WeatherDisplay";
+import WeatherService from "@/services/WeatherService";
+import { data } from "@/constants/mocks"
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    LocationNavigation,
+    WeatherDisplay
+  },
+  data() {
+    return {
+      weatherData: null
+    }
+  },
+  methods: {
+    handleCityClicked(city, state, country) {
+      WeatherService.getDataByCity(city,state, country).then(response => {
+        this.weatherData = response.data.data;
+      })
+    }
+  },
+  created() {
+    this.weatherData = data;
   }
 }
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+}
+
+body {
+  margin: 0;
 }
 </style>
