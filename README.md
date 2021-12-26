@@ -16,6 +16,10 @@ A small website to see Air Quality Index (AQI) cities around the world. The main
 ## Duration 
 2 days
 
+## Run this
+* Fetch the responsitory 
+* Run `yarn serve`
+
 ## Things to improve
 * Using Vuex
 * Add light/dark mode
