@@ -1,13 +1,13 @@
 <template>
   <div id="app">
-    <el-row>
-      <el-col :span="8">
+    <section class="container">
+      <section class="container-left">
         <LocationNavigation @city-clicked="handleCityClicked"></LocationNavigation>
-      </el-col>
-      <el-col :span="16">
-        <WeatherDisplay :data="weatherData"></WeatherDisplay>
-      </el-col>
-    </el-row>
+      </section>
+      <section class="container-right">
+        <WeatherDisplay :data="weatherData" :is-loading-data="isLoadingData"></WeatherDisplay>
+      </section>
+    </section>
   </div>
 </template>
 
@@ -15,7 +15,6 @@
 import LocationNavigation from "@/components/LocationNavigation"
 import WeatherDisplay from "@/components/WeatherDisplay";
 import WeatherService from "@/services/WeatherService";
-import { data } from "@/constants/mocks"
 
 export default {
   name: 'App',
@@ -25,28 +24,52 @@ export default {
   },
   data() {
     return {
-      weatherData: null
+      weatherData: null,
+      isLoadingData: false
     }
   },
   methods: {
     handleCityClicked(city, state, country) {
-      WeatherService.getDataByCity(city,state, country).then(response => {
-        this.weatherData = response.data.data;
-      })
+      this.weatherData = null;
+      this.isLoadingData = true;
+      WeatherService.getDataByCity(city,state, country)
+                    .then(response => {
+                      this.weatherData = response.data.data;
+                      this.isLoadingData = false;
+                     })
+                    .catch(() => {
+                      this.isLoadingData = false;
+                    })
     }
   },
   created() {
-    this.weatherData = data;
   }
 }
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 }
 
 body {
   margin: 0;
+}
+
+.el-input__inner {
+  border-radius: 0;
+}
+
+.container {
+  display: flex;
+
+  &-left {
+    max-width: 60%;
+  }
+
+  &-right {
+    flex-grow: 1;
+    display: block;
+  }
 }
 </style>
