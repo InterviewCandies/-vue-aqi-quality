@@ -1,7 +1,7 @@
 # vue-air-quality
 
 ## Description
-A small website to see Air Quality Index (AQI) cities around the world. The main purpose is to experiment and learn Vue 2. 
+A small website to see Air Quality Index (AQI) cities around the world. The main purpose is to learn Vue 2. 
 
 ## Technology
 * Vue 2
